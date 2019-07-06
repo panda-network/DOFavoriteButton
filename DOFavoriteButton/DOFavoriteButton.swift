@@ -361,11 +361,14 @@ open class DOFavoriteButton: UIButton {
         self.layer.opacity = 1.0
     }
 
-    open func select(animated: Bool = true) {
+    open func select(animated: Bool = true, completion handler: (()->Void)? = nil) {
         isSelected = true
         imageShape.fillColor = imageColorOn.cgColor
 
-        if !animated { return }
+        if !animated {
+            handler?()
+            return
+        }
 
         CATransaction.begin()
 
@@ -380,6 +383,8 @@ open class DOFavoriteButton: UIButton {
         }
 
         CATransaction.commit()
+        
+        handler?()
     }
 
     open func select() {
